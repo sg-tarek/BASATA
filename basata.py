@@ -54,7 +54,7 @@ from tqdm import tqdm
 
 class basata:
     """
-    Basata is the arabic word for simplicity
+    Basata is the arabic word for simplicity.
     The code might not be simple, but the implementation is.
     """
 
