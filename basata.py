@@ -247,7 +247,7 @@ class basata:
         """
         Function for hyperparameter tuning for models using GridSearchCV or RandomizedSearchCV (default)
         Model: 'rf', 'gbdt', 'ab', 'dt', 'knn', 'svm', 'mlp'
-        scoring: accuracy_score, precision_score, recall_score, f1_score
+        scoring: accuracy_score, precision_score, recall_score, f1_score, mean_squared_error, r2_score
         """
 
         if classification==True:
