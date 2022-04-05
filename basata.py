@@ -12,6 +12,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import SGDClassifier
+import xgboost
 
 # Scikit-learn regressors
 from sklearn.ensemble import RandomForestRegressor
@@ -54,7 +55,7 @@ from tqdm import tqdm
 
 class basata:
     """
-    Basata is the arabic word for simplicity.
+    BASATA is the arabic word for simplicity.
     The code might not be simple, but the implementation is.
     """
 
@@ -97,19 +98,22 @@ class basata:
         gbdt = GradientBoostingClassifier()
         ab = AdaBoostClassifier()
         dt = DecisionTreeClassifier()
+        xgb = xgboost.XGBClassifier()
 
         # Fit the models
         rf.fit(X_train, y_train)
         gbdt.fit(X_train, y_train)
         ab.fit(X_train, y_train)
         dt.fit(X_train, y_train)
+        xgb.fit(X_train, y_train)
 
         # Add the results
         model_list = {
             'Random Forest': rf,
             'Gradient Boosting': gbdt,
             'AdaBoost': ab,
-            'Decision Tree': dt
+            'Decision Tree': dt,
+            'XGBoost': xgb
         }
 
         # Create a dataframe to store the results of the models
@@ -152,6 +156,7 @@ class basata:
             svm = SGDClassifier(n_jobs=-1, random_state=random_seed)
             mlp = MLPClassifier(random_state=random_seed )
             mlp.out_activation_ = 'logistic' #used for binary classification
+            xgb = xgboost.XGBClassifier(n_jobs=-1, random_state=random_seed)
         else:
             # Import ML models
             rf = RandomForestRegressor(n_jobs=-1, random_state=random_seed)
@@ -161,6 +166,7 @@ class basata:
             knn = KNeighborsRegressor(n_jobs=-1)
             svm = SGDRegressor(n_jobs=-1, random_state=random_seed)
             mlp = MLPRegressor(random_state=random_seed)
+            xgb = xgboost.XGBRegressor(n_jobs=-1, random_state=random_seed)
 
         # Fit the models
         rf.fit(X_train, y_train)
@@ -170,6 +176,7 @@ class basata:
         knn.fit(X_train, y_train)
         svm.fit(X_train, y_train)
         mlp.fit(X_train, y_train)
+        xgb.fit(X_train, y_train)
 
         # Add the results
         model_list = {
@@ -179,7 +186,8 @@ class basata:
             'Decision Tree': dt,
             'KNN': knn,
             'SVM': svm,
-            'MLP': mlp
+            'MLP': mlp,
+            'XGBoost': xgb
         }
 
         for key, value in model_list.items():
@@ -246,7 +254,7 @@ class basata:
     def tuning(self, X_train, y_train, model='rf', GridSearch=False, scoring=precision_score, random_seed=None, classification=True):
         """
         Function for hyperparameter tuning for models using GridSearchCV or RandomizedSearchCV (default)
-        Model: 'rf', 'gbdt', 'ab', 'dt', 'knn', 'svm', 'mlp'
+        Model: 'rf', 'gbdt', 'ab', 'dt', 'knn', 'svm', 'mlp' or 'xgb'
         scoring: accuracy_score, precision_score, recall_score, f1_score, mean_squared_error, r2_score
         """
 
@@ -260,6 +268,7 @@ class basata:
             svm = SGDClassifier(n_jobs=-1, random_state=random_seed)
             mlp = MLPClassifier(random_state=random_seed )
             mlp.out_activation_ = 'logistic' #used for binary classification
+            xgb = xgboost.XGBClassifier(n_jobs=-1, random_state=random_seed)
         else:
             # Import ML models
             rf = RandomForestRegressor(n_jobs=-1, random_state=random_seed)
@@ -269,6 +278,7 @@ class basata:
             knn = KNeighborsRegressor(n_jobs=-1)
             svm = SGDRegressor(n_jobs=-1, random_state=random_seed)
             mlp = MLPRegressor(random_state=random_seed)
+            xgb = xgboost.XGBRegressor(n_jobs=-1, random_state=random_seed)
 
         # The models to be tuned
         model_list = {
@@ -278,7 +288,8 @@ class basata:
             'dt': dt,
             'knn': knn,
             'svm': svm,
-            'mlp': mlp
+            'mlp': mlp,
+            'xgb': xgb
         }
 
         # Hyperparameters to be tuned
@@ -321,6 +332,11 @@ class basata:
                 'activation': ['identity', 'logistic', 'tanh', 'relu'],
                 'solver': ['lbfgs', 'sgd', 'adam'],
                 'alpha': [0.0001, 0.05, 0.1, 0.5, 1]
+            },
+            'xgb': {
+                'n_estimators': [10, 50, 100, 200, 500],
+                'learning_rate': [0.1, 0.5, 1],
+                'max_depth': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             }
         }
 
