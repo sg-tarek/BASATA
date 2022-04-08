@@ -4,7 +4,7 @@ import seaborn as sns
 plt.style.use("classic")
 sns.set(style ='darkgrid')
 
-# Scikit-learn Classifiers
+# Classifiers
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import AdaBoostClassifier
@@ -13,8 +13,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import SGDClassifier
 import xgboost
+from catboost import CatBoostClassifier
 
-# Scikit-learn regressors
+# Regressors
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.ensemble import AdaBoostRegressor
@@ -22,6 +23,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.neural_network import MLPRegressor
 from sklearn.linear_model import SGDRegressor
+from catboost import CatBoostRegressor
 
 # Evaluation
 from sklearn.metrics import accuracy_score
@@ -88,17 +90,28 @@ class basata:
         
         return df
 
-    def compare_classification(self, X_train, y_train):
+    def compare_models(self, X_train, y_train, random_seed=None, classification=True):
         """
-        Function for comparing feature importance of different classification models
+        Function for comparing feature importance of different ML models
         Only models with a feature_importances_ attribute are supported
         """
-        # Import ML models
-        rf = RandomForestClassifier(n_jobs=-1)
-        gbdt = GradientBoostingClassifier()
-        ab = AdaBoostClassifier()
-        dt = DecisionTreeClassifier()
-        xgb = xgboost.XGBClassifier()
+
+        if classification==True:
+            # Import Classification models
+            rf = RandomForestClassifier(n_jobs=-1, random_state=random_seed)
+            gbdt = GradientBoostingClassifier(random_state=random_seed)
+            ab = AdaBoostClassifier(random_state=random_seed)
+            dt = DecisionTreeClassifier(random_state=random_seed)
+            xgb = xgboost.XGBClassifier(n_jobs=-1, random_state=random_seed)
+            cb = CatBoostClassifier(random_state=random_seed)
+        else:
+            # Import Regression models
+            rf = RandomForestRegressor(n_jobs=-1, random_state=random_seed)
+            gbdt = GradientBoostingRegressor(random_state=random_seed)
+            ab = AdaBoostRegressor(random_state=random_seed)
+            dt = DecisionTreeRegressor(random_state=random_seed)
+            xgb = xgboost.XGBRegressor(n_jobs=-1, random_state=random_seed)
+            cb = CatBoostRegressor(random_state=random_seed)
 
         # Fit the models
         rf.fit(X_train, y_train)
@@ -106,6 +119,7 @@ class basata:
         ab.fit(X_train, y_train)
         dt.fit(X_train, y_train)
         xgb.fit(X_train, y_train)
+        cb.fit(X_train, y_train)
 
         # Add the results
         model_list = {
@@ -113,7 +127,8 @@ class basata:
             'Gradient Boosting': gbdt,
             'AdaBoost': ab,
             'Decision Tree': dt,
-            'XGBoost': xgb
+            'XGBoost': xgb,
+            'CatBoost': cb
         }
 
         # Create a dataframe to store the results of the models
@@ -157,6 +172,7 @@ class basata:
             mlp = MLPClassifier(random_state=random_seed )
             mlp.out_activation_ = 'logistic' #used for binary classification
             xgb = xgboost.XGBClassifier(n_jobs=-1, random_state=random_seed)
+            cb = CatBoostClassifier(random_state=random_seed)
         else:
             # Import ML models
             rf = RandomForestRegressor(n_jobs=-1, random_state=random_seed)
@@ -167,6 +183,7 @@ class basata:
             svm = SGDRegressor(n_jobs=-1, random_state=random_seed)
             mlp = MLPRegressor(random_state=random_seed)
             xgb = xgboost.XGBRegressor(n_jobs=-1, random_state=random_seed)
+            cb = CatBoostRegressor(random_state=random_seed)
 
         # Fit the models
         rf.fit(X_train, y_train)
@@ -177,6 +194,7 @@ class basata:
         svm.fit(X_train, y_train)
         mlp.fit(X_train, y_train)
         xgb.fit(X_train, y_train)
+        cb.fit(X_train, y_train)
 
         # Add the results
         model_list = {
@@ -187,7 +205,8 @@ class basata:
             'KNN': knn,
             'SVM': svm,
             'MLP': mlp,
-            'XGBoost': xgb
+            'XGBoost': xgb,
+            'CatBoost': cb
         }
 
         for key, value in model_list.items():
@@ -254,7 +273,7 @@ class basata:
     def tuning(self, X_train, y_train, model='rf', GridSearch=False, scoring=precision_score, random_seed=None, classification=True):
         """
         Function for hyperparameter tuning for models using GridSearchCV or RandomizedSearchCV (default)
-        Model: 'rf', 'gbdt', 'ab', 'dt', 'knn', 'svm', 'mlp' or 'xgb'
+        Model: 'rf', 'gbdt', 'ab', 'dt', 'knn', 'svm', 'mlp', 'xgb' or 'cb'
         scoring: accuracy_score, precision_score, recall_score, f1_score, mean_squared_error, r2_score
         """
 
@@ -269,6 +288,7 @@ class basata:
             mlp = MLPClassifier(random_state=random_seed )
             mlp.out_activation_ = 'logistic' #used for binary classification
             xgb = xgboost.XGBClassifier(n_jobs=-1, random_state=random_seed)
+            cb = CatBoostClassifier(random_state=random_seed)
         else:
             # Import ML models
             rf = RandomForestRegressor(n_jobs=-1, random_state=random_seed)
@@ -279,6 +299,7 @@ class basata:
             svm = SGDRegressor(n_jobs=-1, random_state=random_seed)
             mlp = MLPRegressor(random_state=random_seed)
             xgb = xgboost.XGBRegressor(n_jobs=-1, random_state=random_seed)
+            cb = CatBoostRegressor(random_state=random_seed)
 
         # The models to be tuned
         model_list = {
@@ -289,7 +310,8 @@ class basata:
             'knn': knn,
             'svm': svm,
             'mlp': mlp,
-            'xgb': xgb
+            'xgb': xgb,
+            'cb': cb
         }
 
         # Hyperparameters to be tuned
@@ -337,6 +359,12 @@ class basata:
                 'n_estimators': [10, 50, 100, 200, 500],
                 'learning_rate': [0.1, 0.5, 1],
                 'max_depth': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            },
+            'cb': {
+                'n_estimators': [10, 50, 100, 200, 500],
+                'learning_rate': [0.1, 0.5, 1],
+                'depth': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                'l2_leaf_reg': [1, 5, 10, 50, 100, 500, 1000]
             }
         }
 
