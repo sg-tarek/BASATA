@@ -38,6 +38,9 @@ import warnings
 from sklearn.exceptions import DataConversionWarning
 warnings.filterwarnings(action='ignore', category=DataConversionWarning)
 
+from sklearn.exceptions import ConvergenceWarning
+ConvergenceWarning('ignore')
+
 # Hyperparameter tuning
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import RandomizedSearchCV
@@ -53,6 +56,7 @@ from sklearn.metrics import f1_score
 
 # Other
 import pandas as pd
+import numpy as np
 from tqdm import tqdm
 
 class basata:
@@ -68,6 +72,18 @@ class basata:
         print(DataFrame.isnull().sum())
         plt.figure(figsize=(10,6)) #Change size if you have many features
         sns.heatmap(DataFrame.isna(), cbar=False, cmap='viridis', yticklabels=False)
+    
+    def correlation(self, DataFrame):
+        """
+        The correlation method gives you insight to the correlation between features
+        """
+        corr = DataFrame.corr()
+
+        # Generate a mask for the upper triangle
+        mask = np.triu(np.ones_like(corr, dtype=bool)) #Masking the diagonoal and above
+
+        plt.figure(figsize=(10,6))
+        sns.heatmap(corr, cmap='RdYlGn', yticklabels=True, annot=True, fmt='.2f', mask=mask, center=0, square=True, linewidths=.5, cbar_kws={"shrink": .5})
 
     def FID(self, DataFrame, ML_model, plot=True, length=5, height=5):
         """
@@ -102,7 +118,7 @@ class basata:
             gbdt = GradientBoostingClassifier(random_state=random_seed)
             ab = AdaBoostClassifier(random_state=random_seed)
             dt = DecisionTreeClassifier(random_state=random_seed)
-            xgb = xgboost.XGBClassifier(n_jobs=-1, random_state=random_seed)
+            xgb = xgboost.XGBClassifier(n_jobs=-1, verbosity = 0, use_label_encoder=False, random_state=random_seed)
             cb = CatBoostClassifier(random_state=random_seed)
         else:
             # Import Regression models
@@ -110,7 +126,7 @@ class basata:
             gbdt = GradientBoostingRegressor(random_state=random_seed)
             ab = AdaBoostRegressor(random_state=random_seed)
             dt = DecisionTreeRegressor(random_state=random_seed)
-            xgb = xgboost.XGBRegressor(n_jobs=-1, random_state=random_seed)
+            xgb = xgboost.XGBRegressor(n_jobs=-1, verbosity = 0, random_state=random_seed)
             cb = CatBoostRegressor(random_state=random_seed)
 
         # Fit the models
@@ -171,7 +187,7 @@ class basata:
             svm = SGDClassifier(n_jobs=-1, random_state=random_seed)
             mlp = MLPClassifier(random_state=random_seed )
             mlp.out_activation_ = 'logistic' #used for binary classification
-            xgb = xgboost.XGBClassifier(n_jobs=-1, random_state=random_seed)
+            xgb = xgboost.XGBClassifier(n_jobs=-1, verbosity = 0, use_label_encoder=False, random_state=random_seed)
             cb = CatBoostClassifier(random_state=random_seed)
         else:
             # Import ML models
@@ -182,7 +198,7 @@ class basata:
             knn = KNeighborsRegressor(n_jobs=-1)
             svm = SGDRegressor(n_jobs=-1, random_state=random_seed)
             mlp = MLPRegressor(random_state=random_seed)
-            xgb = xgboost.XGBRegressor(n_jobs=-1, random_state=random_seed)
+            xgb = xgboost.XGBRegressor(n_jobs=-1, verbosity = 0, random_state=random_seed)
             cb = CatBoostRegressor(random_state=random_seed)
 
         # Fit the models
@@ -287,7 +303,7 @@ class basata:
             svm = SGDClassifier(n_jobs=-1, random_state=random_seed)
             mlp = MLPClassifier(random_state=random_seed )
             mlp.out_activation_ = 'logistic' #used for binary classification
-            xgb = xgboost.XGBClassifier(n_jobs=-1, random_state=random_seed)
+            xgb = xgboost.XGBClassifier(n_jobs=-1, verbosity = 0, use_label_encoder=False, random_state=random_seed)
             cb = CatBoostClassifier(random_state=random_seed)
         else:
             # Import ML models
@@ -298,7 +314,7 @@ class basata:
             knn = KNeighborsRegressor(n_jobs=-1)
             svm = SGDRegressor(n_jobs=-1, random_state=random_seed)
             mlp = MLPRegressor(random_state=random_seed)
-            xgb = xgboost.XGBRegressor(n_jobs=-1, random_state=random_seed)
+            xgb = xgboost.XGBRegressor(n_jobs=-1, verbosity = 0, random_state=random_seed)
             cb = CatBoostRegressor(random_state=random_seed)
 
         # The models to be tuned
