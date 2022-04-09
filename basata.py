@@ -46,13 +46,18 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.metrics import make_scorer 
 
-#Choose a single metric
+# Performance metrics
+from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error 
 from sklearn.metrics import r2_score
+from sklearn.metrics import explained_variance_score
+
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import f1_score
+from sklearn.metrics import balanced_accuracy_score
+from sklearn.metrics import roc_auc_score
 
 # Other
 import pandas as pd
@@ -236,52 +241,74 @@ class basata:
                 y_pred_prob_test[key] = value.predict_proba(X_test)[:, 1]
 
         # Evaluate the models
-        accuracy = {}
-        recall = {}
-        precision = {}
-        F1 = {}
+        if classification==True:
+            accuracy = {}
+            recall = {}
+            precision = {}
+            F1 = {}
+            balanced_accuracy_score = {}
+            roc_auc_score = {}
 
-        for algo in tqdm(model_list, desc='Evaluating models'):
-            accuracy[algo] = accuracy_score(y_test, y_pred_test[algo])
-            recall[algo] = recall_score(y_test, y_pred_test[algo])
-            precision[algo] = precision_score(y_test, y_pred_test[algo])
-            F1[algo] = f1_score(y_test, y_pred_test[algo])
+            for algo in tqdm(model_list, desc='Evaluating models'):
+                accuracy[algo] = accuracy_score(y_test, y_pred_test[algo])
+                recall[algo] = recall_score(y_test, y_pred_test[algo])
+                precision[algo] = precision_score(y_test, y_pred_test[algo])
+                F1[algo] = f1_score(y_test, y_pred_test[algo])
+                balanced_accuracy_score[algo] = balanced_accuracy_score(y_test, y_pred_test[algo])
+                roc_auc_score[algo] = roc_auc_score(y_test, y_pred_prob_test[algo])
 
-        df_performance = pd.DataFrame([accuracy, recall, precision, F1])
-        df_performance.columns = model_list
-        df_performance.index = ["Accuracy", "Recall", "Precision", "F1"]
-        df_transposed = df_performance.T
-        df_sorted = df_transposed.sort_values(by ='Precision', ascending=False)
+            df_performance = pd.DataFrame([accuracy, recall, precision, F1, balanced_accuracy_score, roc_auc_score]).T
+            df_performance.columns = model_list
+            df_performance.index = ["Accuracy", "Recall", "Precision", "F1", "Balanced Accuracy", "ROC AUC"]
+            df_transposed = df_performance.T
+            df_sorted = df_transposed.sort_values(by ='Precision', ascending=False)
 
-        # Print ROC curves in the same plot
-        fig, ax = plt.subplots(figsize=(10, 5))
-        for algo in tqdm(model_list, desc='ROC curves'):
+            # Print ROC curves in the same plot
+            fig, ax = plt.subplots(figsize=(10, 5))
+            for algo in tqdm(model_list, desc='ROC curves'):
+                
+                # fpr = False Positive Rate
+                # tpr = True Positive Rate
+                
+                fpr, tpr, _ = roc_curve(y_test, y_pred_prob_test[algo])
+                roc_auc = auc(fpr, tpr)
+                ax.plot(fpr, tpr, label=algo + ' (AUC = %0.2f)' % roc_auc)
+            ax.plot([0, 1], [0, 1], 'k--')
+            ax.set_xlim([0.0, 1.0])
+            ax.set_ylim([0.0, 1.05])
+            ax.set_xlabel('False Positive Rate')
+            ax.set_ylabel('True Positive Rate')
+            ax.set_title('ROC curve')
+            ax.legend(loc="lower right")
+            plt.show()
+
+            # Print Precision Recall Curve in the same plot
+            fig, ax = plt.subplots(figsize=(10, 5))
+            for key, value in tqdm(model_list.items(), desc='Precision Recall Curve'):
+                plot_precision_recall_curve(value, X_test, y_test, name = key, ax = plt.gca())
             
-            # fpr = False Positive Rate
-            # tpr = True Positive Rate
-            
-            fpr, tpr, _ = roc_curve(y_test, y_pred_prob_test[algo])
-            roc_auc = auc(fpr, tpr)
-            ax.plot(fpr, tpr, label=algo + ' (AUC = %0.2f)' % roc_auc)
-        ax.plot([0, 1], [0, 1], 'k--')
-        ax.set_xlim([0.0, 1.0])
-        ax.set_ylim([0.0, 1.05])
-        ax.set_xlabel('False Positive Rate')
-        ax.set_ylabel('True Positive Rate')
-        ax.set_title('ROC curve')
-        ax.legend(loc="lower right")
-        plt.show()
+            ax.set_xlabel('Recall')
+            ax.set_ylabel('Precision')
+            ax.set_title('Precision Recall Curve')
+            ax.legend(loc="lower left")
+            plt.show()
+        else:
+            mean_absolute_error = {}
+            mean_squared_error = {}
+            r2_score = {}
+            explained_variance_score = {}
 
-        # Print Precision Recall Curve in the same plot
-        fig, ax = plt.subplots(figsize=(10, 5))
-        for key, value in tqdm(model_list.items(), desc='Precision Recall Curve'):
-            plot_precision_recall_curve(value, X_test, y_test, name = key, ax = plt.gca())
-        
-        ax.set_xlabel('Recall')
-        ax.set_ylabel('Precision')
-        ax.set_title('Precision Recall Curve')
-        ax.legend(loc="lower left")
-        plt.show()
+            for algo in tqdm(model_list, desc='Evaluating models'):
+                mean_absolute_error[algo] = mean_absolute_error(y_test, y_pred_test[algo])
+                mean_squared_error[algo] = mean_squared_error(y_test, y_pred_test[algo])
+                r2_score[algo] = r2_score(y_test, y_pred_test[algo])
+                explained_variance_score[algo] = explained_variance_score(y_test, y_pred_test[algo])
+
+            df_performance = pd.DataFrame([mean_absolute_error, mean_squared_error, r2_score, explained_variance_score]).T
+            df_performance.columns = model_list
+            df_performance.index = ["Mean Absolute Error", "Mean Squared Error", "R2 Score", "Explained Variance Score"]    
+            df_transposed = df_performance.T
+            df_sorted = df_transposed.sort_values(by ='Mean Squared Error', ascending=False)
 
         return df_sorted.style.highlight_max(axis=0)
 
