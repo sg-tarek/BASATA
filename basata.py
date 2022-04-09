@@ -25,27 +25,6 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.linear_model import SGDRegressor
 from catboost import CatBoostRegressor
 
-# Evaluation
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import recall_score
-from sklearn.metrics import precision_score
-from sklearn.metrics import f1_score
-from sklearn.metrics import roc_curve, auc
-from sklearn.metrics import plot_precision_recall_curve
-
-# Hide warnings when running the script
-import warnings
-from sklearn.exceptions import DataConversionWarning
-warnings.filterwarnings(action='ignore', category=DataConversionWarning)
-
-from sklearn.exceptions import ConvergenceWarning
-ConvergenceWarning('ignore')
-
-# Hyperparameter tuning
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import RandomizedSearchCV
-from sklearn.metrics import make_scorer 
-
 # Performance metrics
 from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error 
@@ -56,8 +35,23 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import f1_score
+from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import plot_precision_recall_curve
 from sklearn.metrics import balanced_accuracy_score
 from sklearn.metrics import roc_auc_score
+
+# Hyperparameter tuning
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV
+from sklearn.metrics import make_scorer 
+
+# Hide warnings when running the script
+import warnings
+from sklearn.exceptions import DataConversionWarning
+warnings.filterwarnings(action='ignore', category=DataConversionWarning)
+
+from sklearn.exceptions import ConvergenceWarning
+ConvergenceWarning('ignore')
 
 # Other
 import pandas as pd
@@ -246,16 +240,16 @@ class basata:
             recall = {}
             precision = {}
             F1 = {}
-            balanced_accuracy_score = {}
-            roc_auc_score = {}
+            balanced_accuracy = {}
+            roc_score = {}
 
             for algo in tqdm(model_list, desc='Evaluating models'):
                 accuracy[algo] = accuracy_score(y_test, y_pred_test[algo])
                 recall[algo] = recall_score(y_test, y_pred_test[algo])
                 precision[algo] = precision_score(y_test, y_pred_test[algo])
                 F1[algo] = f1_score(y_test, y_pred_test[algo])
-                balanced_accuracy_score[algo] = balanced_accuracy_score(y_test, y_pred_test[algo])
-                roc_auc_score[algo] = roc_auc_score(y_test, y_pred_prob_test[algo])
+                balanced_accuracy[algo] = balanced_accuracy_score(y_test, y_pred_test[algo])
+                roc_score[algo] = roc_auc_score(y_test, y_pred_prob_test[algo])
 
             df_performance = pd.DataFrame([accuracy, recall, precision, F1, balanced_accuracy_score, roc_auc_score]).T
             df_performance.columns = model_list
@@ -293,16 +287,16 @@ class basata:
             ax.legend(loc="lower left")
             plt.show()
         else:
-            mean_absolute_error = {}
-            mean_squared_error = {}
-            r2_score = {}
-            explained_variance_score = {}
+            mean_absolute = {}
+            mean_squared = {}
+            r2 = {}
+            explained_variance = {}
 
             for algo in tqdm(model_list, desc='Evaluating models'):
-                mean_absolute_error[algo] = mean_absolute_error(y_test, y_pred_test[algo])
-                mean_squared_error[algo] = mean_squared_error(y_test, y_pred_test[algo])
-                r2_score[algo] = r2_score(y_test, y_pred_test[algo])
-                explained_variance_score[algo] = explained_variance_score(y_test, y_pred_test[algo])
+                mean_absolute[algo] = mean_absolute_error(y_test, y_pred_test[algo])
+                mean_squared[algo] = mean_squared_error(y_test, y_pred_test[algo])
+                r2[algo] = r2_score(y_test, y_pred_test[algo])
+                explained_variance[algo] = explained_variance_score(y_test, y_pred_test[algo])
 
             df_performance = pd.DataFrame([mean_absolute_error, mean_squared_error, r2_score, explained_variance_score]).T
             df_performance.columns = model_list
