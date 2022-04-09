@@ -251,7 +251,7 @@ class basata:
                 balanced_accuracy[algo] = balanced_accuracy_score(y_test, y_pred_test[algo])
                 roc_score[algo] = roc_auc_score(y_test, y_pred_prob_test[algo])
 
-            df_performance = pd.DataFrame([accuracy, recall, precision, F1, balanced_accuracy_score, roc_auc_score]).T
+            df_performance = pd.DataFrame([accuracy, recall, precision, F1, balanced_accuracy, roc_score])
             df_performance.columns = model_list
             df_performance.index = ["Accuracy", "Recall", "Precision", "F1", "Balanced Accuracy", "ROC AUC"]
             df_transposed = df_performance.T
@@ -298,7 +298,7 @@ class basata:
                 r2[algo] = r2_score(y_test, y_pred_test[algo])
                 explained_variance[algo] = explained_variance_score(y_test, y_pred_test[algo])
 
-            df_performance = pd.DataFrame([mean_absolute_error, mean_squared_error, r2_score, explained_variance_score]).T
+            df_performance = pd.DataFrame([mean_absolute, mean_squared, r2, explained_variance])
             df_performance.columns = model_list
             df_performance.index = ["Mean Absolute Error", "Mean Squared Error", "R2 Score", "Explained Variance Score"]    
             df_transposed = df_performance.T
