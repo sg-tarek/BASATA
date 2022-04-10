@@ -4,7 +4,7 @@ import seaborn as sns
 plt.style.use("classic")
 sns.set(style ='darkgrid')
 
-# Classifiers
+# ML Classifiers
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import AdaBoostClassifier
@@ -15,7 +15,7 @@ from sklearn.linear_model import SGDClassifier
 import xgboost
 from catboost import CatBoostClassifier
 
-# Regressors
+# ML Regressors
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.ensemble import AdaBoostRegressor
@@ -255,7 +255,7 @@ class basata:
             df_performance.columns = model_list
             df_performance.index = ["Accuracy", "Recall", "Precision", "F1", "Balanced Accuracy", "ROC AUC"]
             df_transposed = df_performance.T
-            df_sorted = df_transposed.sort_values(by ='Precision', ascending=False)
+            df_sorted = df_transposed.sort_values(by ='Accuracy', ascending=False)
 
             # Print ROC curves in the same plot
             fig, ax = plt.subplots(figsize=(10, 5))
@@ -307,7 +307,7 @@ class basata:
         return df_sorted.style.highlight_max(axis=0)
 
     # Function for hyperparameter tuning for models using GridSearchCV
-    def tuning(self, X_train, y_train, model='rf', GridSearch=False, scoring=precision_score, random_seed=None, classification=True):
+    def tuning(self, X_train, y_train, model='rf', GridSearch=False, scoring=accuracy_score, random_seed=None, classification=True):
         """
         Function for hyperparameter tuning for models using GridSearchCV or RandomizedSearchCV (default)
         Model: 'rf', 'gbdt', 'ab', 'dt', 'knn', 'svm', 'mlp', 'xgb' or 'cb'
