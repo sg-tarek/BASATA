@@ -1,3 +1,4 @@
+from xml.etree.ElementInclude import include
 from setuptools import setup, find_packages
 
 def readme():
@@ -7,7 +8,7 @@ def readme():
 
 setup(
     name='basata',
-    version='1.0.3',
+    version='1.0.4',
     description='BASATA - Code less while gaining more',
     long_description=readme(),
     long_description_content_type="text/markdown",
@@ -20,7 +21,7 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.9'
     ],
-    packages=find_packages('basata'),
+    packages=find_packages(include=['basata']),
     package_dir={'': 'basata'},
     url='https://github.com/sg-tarek/BASATA',
     keywords='ML AI Supervised TimeSeries Unsupservised',

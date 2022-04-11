@@ -6,13 +6,14 @@
 Installing
 ============
 
-.. code-block:: bash
-
     pip install basata
 
 Usage
 =====
 
-.. code-block:: bash
-
     from basata import basata
+
+Upgrade
+=====
+
+    pip install --upgrade basata
