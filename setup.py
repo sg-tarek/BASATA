@@ -21,8 +21,7 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.9'
     ],
-    packages=find_packages(include=['basata']),
-    package_dir={'': 'basata'},
+    packages=find_packages(include=['basata*']),
     url='https://github.com/sg-tarek/BASATA',
     keywords='ML AI Supervised TimeSeries Unsupservised',
     install_requires=[
