@@ -18,3 +18,7 @@ Upgrade
 =====
 
     pip install --upgrade basata
+
+or
+
+    pip install --upgrade basata==<VERSION_NUMBER>
