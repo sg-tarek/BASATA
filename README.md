@@ -34,5 +34,5 @@ BASATA is completely free and open-source and licensed under the [MIT](https://g
 
 ## Contributors
 <a href="https://github.com/sg-tarek/BASATA/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=sg-tarek/BASATA" width = 500/>
+  <img src="https://contributors-img.web.app/image?repo=sg-tarek/BASATA" width = 100/>
 </a>
