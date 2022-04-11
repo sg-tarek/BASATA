@@ -5,9 +5,6 @@ def readme():
         README = f.read()
     return README
 
-with open("requirements.txt") as f:
-    required = f.read().splitlines()
-
 setup(
     name='basata',
     version='1.0.0',
@@ -18,14 +15,24 @@ setup(
     author="Tarek K. Ghanoum",
     author_email='ta.ghanoum@gmail.com',
     classifiers=[
-        'Development Status :: 3 - Alpha'
-        'Intended Audience :: Data Scientists'
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.9'
     ],
     packages=find_packages('basata'),
     package_dir={'': 'basata'},
     url='https://github.com/sg-tarek/BASATA',
     keywords='ML AI Supervised TimeSeries Unsupservised',
-    install_requires=required
+    install_requires=[
+          'scikit-learn',
+          'catboost',
+          'xgboost',
+          'scikit-learn',
+          'seaborn',
+          'pandas',
+          'matplotlib',
+          'numpy',
+          'tqdm'
+      ],
 )

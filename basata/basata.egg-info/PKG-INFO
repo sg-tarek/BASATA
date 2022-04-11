@@ -8,7 +8,9 @@ Author-email: ta.ghanoum@gmail.com
 License: MIT
 Keywords: ML AI Supervised TimeSeries Unsupservised
 Platform: UNKNOWN
-Classifier: Development Status :: 3 - AlphaIntended Audience :: Data ScientistsLicense :: OSI Approved :: MIT License
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
 Classifier: Programming Language :: Python :: 3.9
 Description-Content-Type: text/markdown
 License-File: LICENSE.txt
