@@ -2,6 +2,10 @@
   <img width="491" alt="basata" src="https://github.com/sg-tarek/BASATA/blob/main/logo.png">
 </p>
 
+[![Python](https://img.shields.io/badge/Python-3-blue)](https://badge.fury.io/py/basata) 
+[![PyPI version](https://badge.fury.io/py/basata.svg)](https://badge.fury.io/py/basata) 
+[![License](https://img.shields.io/pypi/l/ansicolortags.svg)](https://img.shields.io/pypi/l/ansicolortags.svg) 
+
 BASATA is the Arabic word for simplicity. The purpose of the BASATA library is to simplify coding while providing profound insights.
 The library has been tested on reel use cases and will be the number one tool for professional Data Scientists.
 
