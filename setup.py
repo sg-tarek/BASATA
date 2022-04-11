@@ -22,7 +22,6 @@ setup(
         'Programming Language :: Python :: 3.9'
     ],
     packages=find_packages(include=['basata']),
-    package_dir={'': 'basata'},
     url='https://github.com/sg-tarek/BASATA',
     keywords='ML AI Supervised TimeSeries Unsupservised',
     install_requires=[
