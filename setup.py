@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name='basata',
-    version='1.0.4',
+    version='1.0.5',
     description='BASATA - Code less while gaining more',
     long_description=readme(),
     long_description_content_type="text/markdown",
@@ -22,6 +22,7 @@ setup(
         'Programming Language :: Python :: 3.9'
     ],
     packages=find_packages(include=['basata']),
+    package_dir={'': 'basata'},
     url='https://github.com/sg-tarek/BASATA',
     keywords='ML AI Supervised TimeSeries Unsupservised',
     install_requires=[
