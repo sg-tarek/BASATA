@@ -60,7 +60,7 @@ from tqdm import tqdm
 
 def null(DataFrame):
     """
-    The null method gives you insight to number of null values
+    The null function gives you insight to number of null values
     """
     print(DataFrame.isnull().sum())
     plt.figure(figsize=(10,6)) #Change size if you have many features
@@ -68,7 +68,7 @@ def null(DataFrame):
 
 def correlation(DataFrame):
     """
-    The correlation method gives you insight to the correlation between features
+    The correlation function gives you insight to the correlation between features
     """
     corr = DataFrame.corr()
 
