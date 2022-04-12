@@ -23,7 +23,7 @@ setup(
     ],
     packages=find_packages(include=['basata']),
     url='https://github.com/sg-tarek/BASATA',
-    keywords='ML AI Supervised TimeSeries Unsupservised',
+    keywords='ML AI Supervised TimeSeries Unsupservised NLP',
     install_requires=[
           'scikit-learn',
           'catboost',
