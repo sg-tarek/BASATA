@@ -21,7 +21,7 @@ Installing
 Usage
 =====
 
-    from basata.basata import *
+    from basata.supervised import *
 
 Upgrade
 =====

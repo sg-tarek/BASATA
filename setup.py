@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name='basata',
-    version='1.0.8',
+    version='1.0.9',
     description='BASATA - Code less while gaining more',
     long_description=readme(),
     long_description_content_type="text/markdown",
@@ -19,7 +19,7 @@ setup(
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.9'
+        'Programming Language :: Python :: 3'
     ],
     packages=find_packages(include=['basata']),
     url='https://github.com/sg-tarek/BASATA',
