@@ -21,6 +21,9 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3'
     ],
+    project_urls={
+    'Documentation': 'https://sg-tarek.github.io/'
+    },
     packages=find_packages(include=['basata']),
     url='https://github.com/sg-tarek/BASATA',
     keywords='ML AI Supervised TimeSeries Unsupservised NLP',
