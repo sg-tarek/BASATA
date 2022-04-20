@@ -99,7 +99,7 @@ def FID(DataFrame, ML_model, plot=True, length=5, height=5):
     
     return df
 
-def compare_models(X_train, y_train, random_seed=None, classification=True):
+def compare_models(X, y, random_seed=None, classification=True):
     """
     Function for comparing feature importance of different ML models
     Only models with a feature_importances_ attribute are supported
@@ -123,12 +123,12 @@ def compare_models(X_train, y_train, random_seed=None, classification=True):
         cb = CatBoostRegressor(random_state=random_seed)
 
     # Fit the models
-    rf.fit(X_train, y_train)
-    gbdt.fit(X_train, y_train)
-    ab.fit(X_train, y_train)
-    dt.fit(X_train, y_train)
-    xgb.fit(X_train, y_train)
-    cb.fit(X_train, y_train)
+    rf.fit(X, y)
+    gbdt.fit(X, y)
+    ab.fit(X, y)
+    dt.fit(X, y)
+    xgb.fit(X, y)
+    cb.fit(X, y)
 
     # Add the results
     model_list = {
@@ -141,7 +141,7 @@ def compare_models(X_train, y_train, random_seed=None, classification=True):
     }
 
     # Create a dataframe to store the results of the models
-    column_names    = X_train.columns
+    column_names    = X.columns
     features = {}
     
     for key, value in model_list.items():
@@ -301,7 +301,7 @@ def automl(X_test, X_train, y_train, y_test, random_seed=None, classification=Tr
     return df_sorted.style.highlight_max(axis=0)
 
 # Function for hyperparameter tuning for models using GridSearchCV
-def tuning(X_train, y_train, model='rf', GridSearch=False, scoring=accuracy_score, random_seed=None, classification=True):
+def tuning(X, y, model='rf', GridSearch=False, scoring=accuracy_score, random_seed=None, classification=True):
     """
     Function for hyperparameter tuning for models using GridSearchCV or RandomizedSearchCV (default)
     Model: 'rf', 'gbdt', 'ab', 'dt', 'knn', 'svm', 'mlp', 'xgb' or 'cb'
@@ -405,7 +405,7 @@ def tuning(X_train, y_train, model='rf', GridSearch=False, scoring=accuracy_scor
     if GridSearch==True:
         # GridSearchCV
         grid_search = GridSearchCV(model_list[model], param_grid=hyperparameters[model], cv=5, scoring=scorer, n_jobs=-1)
-        grid_result = grid_search.fit(X_train, y_train)
+        grid_result = grid_search.fit(X, y)
 
         print('The GridSearchCV found the following best parameters:')
         print('Best score for {}: {}'.format(model, grid_result.best_score_))
@@ -414,7 +414,7 @@ def tuning(X_train, y_train, model='rf', GridSearch=False, scoring=accuracy_scor
     else:
         # RandomizedSearchCV
         grid_search = RandomizedSearchCV(model_list[model], param_distributions=hyperparameters[model], cv=5, scoring=scorer, n_jobs=-1)
-        grid_result = grid_search.fit(X_train, y_train)
+        grid_result = grid_search.fit(X, y)
 
         print('The RandomizedSearchCV found the following best parameters:')
         print('Best score for {}: {}'.format(model, grid_result.best_score_))
