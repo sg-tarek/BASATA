@@ -6,7 +6,11 @@
 [![PyPI version](https://badge.fury.io/py/basata.svg)](https://badge.fury.io/py/basata) 
 [![License](https://img.shields.io/pypi/l/ansicolortags.svg)](https://img.shields.io/pypi/l/ansicolortags.svg) 
 
-BASATA is the Arabic word for simplicity. The purpose of the BASATA library is to simplify coding while providing profound insights. The library has been tested on reel use cases and will be the number one tool for professional Data Scientists.
+BASATA is the Arabic word for simplicity. The purpose of the BASATA library is to simplify coding while providing profound insights. You can use BASATA to write code that is easy to read, understand, and maintain.
+
+The BASATA library is used to automate machine learning tasks. Building on the spirit of AutoML, BASATA is a framework for analysing data and building machine learning models.
+
+The library has been tested on reel use cases and will be the number one tool for professional Data Scientists.
 
 The current version supports supervised machine learning and will be expanded to unsupervised followed by Time Series analysis. The project is open source and will grow through contributions by its users.
 
