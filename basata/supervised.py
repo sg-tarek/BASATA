@@ -62,6 +62,7 @@ import shap
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
+import sweetviz as sv
 
 def null(DataFrame):
     """
@@ -455,3 +456,17 @@ def xai(X_train, X_test, model=None, mode='classification', observation=0, featu
     exp.as_pyplot_figure();
 
     return exp
+
+def eda(DataFrame):
+    """
+    The Exploratory Data Analysis (EDA) function is used to explore the data.
+    Using the sweetviz library, the data is visualized in a variety of ways in an HTML file.
+    """
+    
+    #EDA using Autoviz
+    sweet_report = sv.analyze([DataFrame, "DataFrame"]) #Or just type the name of the dataframe
+
+    #Saving results to HTML file
+    sweet_report.show_html('sweet_report.html')
+
+    return

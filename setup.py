@@ -37,6 +37,7 @@ setup(
           'matplotlib',
           'numpy',
           'tqdm',
-          'lime'
-      ],
+          'lime',
+          'sweetviz'
+      ]
 )
