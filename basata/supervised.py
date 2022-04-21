@@ -53,6 +53,11 @@ warnings.filterwarnings(action='ignore', category=DataConversionWarning)
 from sklearn.exceptions import ConvergenceWarning
 ConvergenceWarning('ignore')
 
+# Explainable AI
+import lime
+import lime.lime_tabular
+import shap
+
 # Other
 import pandas as pd
 import numpy as np
@@ -68,7 +73,7 @@ def null(DataFrame):
 
 def correlation(DataFrame):
     """
-    The correlation function gives you insight to the correlation between features
+    The correlation function gives you insight to the correlation between numerical features
     """
     corr = DataFrame.corr()
 
@@ -300,7 +305,6 @@ def automl(X_test, X_train, y_train, y_test, random_seed=None, classification=Tr
 
     return df_sorted.style.highlight_max(axis=0)
 
-# Function for hyperparameter tuning for models using GridSearchCV
 def tuning(X, y, model='rf', GridSearch=False, scoring=accuracy_score, random_seed=None, classification=True):
     """
     Function for hyperparameter tuning for models using GridSearchCV or RandomizedSearchCV (default)
@@ -421,3 +425,33 @@ def tuning(X, y, model='rf', GridSearch=False, scoring=accuracy_score, random_se
         print('Best estimator for {}: {}'.format(model, grid_result.best_estimator_))
     
     return grid_result
+
+def xai(X_train, X_test, model=None, mode='classification', observation=0, feature_selection='none'):
+    """
+    The eXplainable AI (XAI) function is used to explain the model's predictions. The model uses LIME to explain the predictions of the model.
+    """
+
+    if mode == 'classification':
+        explainer = lime.lime_tabular.LimeTabularExplainer(
+        training_data = X_train.values,
+        mode = mode,
+        feature_names = X_train.columns,
+        feature_selection = feature_selection #Set to 'auto' or 'lasso_path' in case of feature selection, I have set it to none to see all features
+        )
+    elif mode == 'regression':
+        explainer = lime.lime_tabular.LimeTabularExplainer(
+        training_data = X_train.values,
+        mode = mode,
+        feature_names = X_train.columns,
+        feature_selection = feature_selection #Set to 'auto' or 'lasso_path' in case of feature selection, I have set it to none to see all features
+        )
+
+    exp = explainer.explain_instance(
+        data_row=X_test.iloc[observation], #Specific observation to predict
+        predict_fn=model.predict_proba #The model GBDT in this case
+    )
+    exp.show_in_notebook(show_table=True)
+
+    exp.as_pyplot_figure();
+
+    return exp

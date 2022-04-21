@@ -36,6 +36,7 @@ setup(
           'pandas',
           'matplotlib',
           'numpy',
-          'tqdm'
+          'tqdm',
+          'lime'
       ],
 )
