@@ -318,7 +318,7 @@ def automl(X_test, X_train, y_train, y_test, random_seed=None, classification=Tr
 def tuning(X, y, model='rf', GridSearch=False, scoring=accuracy_score, random_seed=None, classification=True):
     """
     Function for hyperparameter tuning for models using GridSearchCV or RandomizedSearchCV (default)
-    Model: 'rf', 'gbdt', 'ab', 'dt', 'knn', 'svm', 'mlp', 'xgb', 'cb', 'lgb'
+    Model: 'rf', 'gbdt', 'ab', 'dt', 'knn', 'svm', 'mlp', 'xgb', 'cb', 'lgbm'
     scoring: accuracy_score, precision_score, recall_score, f1_score, mean_squared_error, r2_score
     """
 
