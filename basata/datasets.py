@@ -1,10 +1,5 @@
-# The function was originally written by Moez Ali
-
 def get_data(
     dataset="index",
-    save_copy=False,
-    profile=False,
-    verbose=True,
     address="https://raw.githubusercontent.com/sg-tarek/BASATA/main/Datasets/",
 ):
 
@@ -20,12 +15,6 @@ def get_data(
 
     dataset: str, default = 'index'
         Index value of dataset.
-    save_copy: bool, default = False
-        When set to true, it saves a copy in current working directory.
-    profile: bool, default = False
-        When set to true, an interactive EDA report is displayed.
-    verbose: bool, default = True
-        When set to False, head of data is not displayed.
     address: string, default = "https://raw.githubusercontent.com/sg-tarek/BASATA/main/Datasets/"
         Download url of dataset.
     Returns:
@@ -37,7 +26,6 @@ def get_data(
 
     import pandas as pd
     import os.path
-    from IPython.display import display, HTML, clear_output, update_display
 
     extension = ".csv"
     filename = str(dataset) + extension
@@ -48,26 +36,5 @@ def get_data(
         data = pd.read_csv(filename)
     else:
         data = pd.read_csv(complete_address)
-
-    # create a copy for pandas profiler
-    data_for_profiling = data.copy()
-
-    if save_copy:
-        save_name = filename
-        data.to_csv(save_name, index=False)
-
-    if dataset == "index":
-        display(data)
-
-    else:
-        if profile:
-            import pandas_profiling
-
-            pf = pandas_profiling.ProfileReport(data_for_profiling)
-            display(pf)
-
-        else:
-            if verbose:
-                display(data.head())
 
     return data
