@@ -70,7 +70,7 @@ def null(DataFrame):
     """
     print(DataFrame.isnull().sum())
     plt.figure(figsize=(10,6)) #Change size if you have many features
-    sns.heatmap(DataFrame.isna(), cbar=False, cmap='viridis', yticklabels=False)
+    sns.heatmap(DataFrame.isna(), cbar=False, cmap='binary', yticklabels=False)
 
 def correlation(DataFrame):
     """
