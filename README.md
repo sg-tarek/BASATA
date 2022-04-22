@@ -14,7 +14,8 @@ The library has been tested on reel use cases and will be the number one tool fo
 
 The current version supports supervised machine learning and will be expanded to unsupervised followed by Time Series analysis. The project is open source and will grow through contributions by its users.
 
-Official Documentation: https://sg-tarek.github.io/
+Official Documentation: [Link](https://sg-tarek.github.io/)
+Examples to get started: [Link](https://github.com/sg-tarek/BASATA/tree/main/Examples)
 
 Installing
 ============
