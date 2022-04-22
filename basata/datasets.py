@@ -5,7 +5,7 @@ def get_data(
     save_copy=False,
     profile=False,
     verbose=True,
-    address="https://raw.githubusercontent.com/pycaret/pycaret/master/datasets/",
+    address="https://raw.githubusercontent.com/sg-tarek/BASATA/main/Datasets/",
 ):
 
     """
@@ -26,9 +26,8 @@ def get_data(
         When set to true, an interactive EDA report is displayed.
     verbose: bool, default = True
         When set to False, head of data is not displayed.
-    address: string, default = "https://raw.githubusercontent.com/pycaret/pycaret/master/datasets/"
-        Download url of dataset. For people have difficulty linking to github, they can change
-        the default address to their own (e.g. "https://gitee.com/IncubatorShokuhou/pycaret/raw/master/datasets/")
+    address: string, default = "https://raw.githubusercontent.com/sg-tarek/BASATA/main/Datasets/"
+        Download url of dataset.
     Returns:
         pandas.DataFrame
     Warnings
