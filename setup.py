@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name='basata',
-    version='1.0.9',
+    version='1.0.10',
     description='BASATA - Code less while gaining more',
     long_description=readme(),
     long_description_content_type="text/markdown",
@@ -31,6 +31,7 @@ setup(
           'scikit-learn',
           'catboost',
           'xgboost',
+          'lightgbm',
           'scikit-learn',
           'seaborn',
           'pandas',

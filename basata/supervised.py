@@ -14,6 +14,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import SGDClassifier
 import xgboost
 from catboost import CatBoostClassifier
+import lightgbm as lgb
 
 # ML Regressors
 from sklearn.ensemble import RandomForestRegressor
@@ -119,6 +120,7 @@ def compare_models(X, y, random_seed=None, classification=True):
         dt = DecisionTreeClassifier(random_state=random_seed)
         xgb = xgboost.XGBClassifier(n_jobs=-1, verbosity = 0, use_label_encoder=False, random_state=random_seed)
         cb = CatBoostClassifier(random_state=random_seed)
+        lgb = lgb.LGBMClassifier(n_jobs=-1, random_state=random_seed)
     else:
         # Import Regression models
         rf = RandomForestRegressor(n_jobs=-1, random_state=random_seed)
@@ -127,6 +129,7 @@ def compare_models(X, y, random_seed=None, classification=True):
         dt = DecisionTreeRegressor(random_state=random_seed)
         xgb = xgboost.XGBRegressor(n_jobs=-1, verbosity = 0, random_state=random_seed)
         cb = CatBoostRegressor(random_state=random_seed)
+        lgb = lgb.LGBMRegressor(n_jobs=-1, random_state=random_seed)
 
     # Fit the models
     rf.fit(X, y)
@@ -135,6 +138,7 @@ def compare_models(X, y, random_seed=None, classification=True):
     dt.fit(X, y)
     xgb.fit(X, y)
     cb.fit(X, y)
+    lgb.fit(X, y)
 
     # Add the results
     model_list = {
@@ -143,7 +147,8 @@ def compare_models(X, y, random_seed=None, classification=True):
         'AdaBoost': ab,
         'Decision Tree': dt,
         'XGBoost': xgb,
-        'CatBoost': cb
+        'CatBoost': cb,
+        'LightGBM': lgb
     }
 
     # Create a dataframe to store the results of the models
@@ -188,6 +193,7 @@ def automl(X_test, X_train, y_train, y_test, random_seed=None, classification=Tr
         mlp.out_activation_ = 'logistic' #used for binary classification
         xgb = xgboost.XGBClassifier(n_jobs=-1, verbosity = 0, use_label_encoder=False, random_state=random_seed)
         cb = CatBoostClassifier(random_state=random_seed)
+        lgb = lgb.LGBMClassifier(n_jobs=-1, random_state=random_seed)
     else:
         # Import ML models
         rf = RandomForestRegressor(n_jobs=-1, random_state=random_seed)
@@ -199,6 +205,7 @@ def automl(X_test, X_train, y_train, y_test, random_seed=None, classification=Tr
         mlp = MLPRegressor(random_state=random_seed)
         xgb = xgboost.XGBRegressor(n_jobs=-1, verbosity = 0, random_state=random_seed)
         cb = CatBoostRegressor(random_state=random_seed)
+        lgb = lgb.LGBMRegressor(n_jobs=-1, random_state=random_seed)
 
     # Fit the models
     rf.fit(X_train, y_train)
@@ -210,6 +217,7 @@ def automl(X_test, X_train, y_train, y_test, random_seed=None, classification=Tr
     mlp.fit(X_train, y_train)
     xgb.fit(X_train, y_train)
     cb.fit(X_train, y_train)
+    lgb.fit(X_train, y_train)
 
     # Add the results
     model_list = {
@@ -221,7 +229,8 @@ def automl(X_test, X_train, y_train, y_test, random_seed=None, classification=Tr
         'SVM': svm,
         'MLP': mlp,
         'XGBoost': xgb,
-        'CatBoost': cb
+        'CatBoost': cb,
+        'LightGBM': lgb
     }
 
     for key, value in model_list.items():
@@ -309,7 +318,7 @@ def automl(X_test, X_train, y_train, y_test, random_seed=None, classification=Tr
 def tuning(X, y, model='rf', GridSearch=False, scoring=accuracy_score, random_seed=None, classification=True):
     """
     Function for hyperparameter tuning for models using GridSearchCV or RandomizedSearchCV (default)
-    Model: 'rf', 'gbdt', 'ab', 'dt', 'knn', 'svm', 'mlp', 'xgb' or 'cb'
+    Model: 'rf', 'gbdt', 'ab', 'dt', 'knn', 'svm', 'mlp', 'xgb', 'cb', 'lgb'
     scoring: accuracy_score, precision_score, recall_score, f1_score, mean_squared_error, r2_score
     """
 
@@ -325,6 +334,7 @@ def tuning(X, y, model='rf', GridSearch=False, scoring=accuracy_score, random_se
         mlp.out_activation_ = 'logistic' #used for binary classification
         xgb = xgboost.XGBClassifier(n_jobs=-1, verbosity = 0, use_label_encoder=False, random_state=random_seed)
         cb = CatBoostClassifier(random_state=random_seed)
+        lgb = lgb.LGBMClassifier(n_jobs=-1, random_state=random_seed)
     else:
         # Import ML models
         rf = RandomForestRegressor(n_jobs=-1, random_state=random_seed)
@@ -336,6 +346,7 @@ def tuning(X, y, model='rf', GridSearch=False, scoring=accuracy_score, random_se
         mlp = MLPRegressor(random_state=random_seed)
         xgb = xgboost.XGBRegressor(n_jobs=-1, verbosity = 0, random_state=random_seed)
         cb = CatBoostRegressor(random_state=random_seed)
+        lgb = lgb.LGBMRegressor(n_jobs=-1, random_state=random_seed)
 
     # The models to be tuned
     model_list = {
@@ -347,7 +358,8 @@ def tuning(X, y, model='rf', GridSearch=False, scoring=accuracy_score, random_se
         'svm': svm,
         'mlp': mlp,
         'xgb': xgb,
-        'cb': cb
+        'cb': cb,
+        'lgb': lgb
     }
 
     # Hyperparameters to be tuned
@@ -401,6 +413,12 @@ def tuning(X, y, model='rf', GridSearch=False, scoring=accuracy_score, random_se
             'learning_rate': [0.1, 0.5, 1],
             'depth': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             'l2_leaf_reg': [1, 5, 10, 50, 100, 500, 1000]
+        },
+        'lgb': {
+            'n_estimators': [10, 50, 100, 200, 500],
+            'learning_rate': [0.1, 0.5, 1],
+            'max_depth': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            'num_leaves': [2, 5, 10, 20, 50, 100, 200, 500]
         }
     }
 
