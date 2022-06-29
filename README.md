@@ -26,6 +26,7 @@ Installing
 Usage
 =====
 
+    from basata.datasets import get_data
     from basata.supervised import *
 
 Upgrade
