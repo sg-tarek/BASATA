@@ -40,5 +40,6 @@ setup(
           'tqdm',
           'lime',
           'sweetviz'
+          'shap'
       ]
 )
